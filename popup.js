@@ -1,6 +1,6 @@
 // Save Tabs
 document.getElementById('save-tabs').addEventListener('click', function() {
-    var groupName = prompt("Enter group name:");
+    var groupName = document.getElementById('group-name').value;
     if (groupName == null || groupName == "") {
         return;
     }
@@ -24,7 +24,7 @@ document.getElementById('view-groups').addEventListener('click', function() {
         for (var key in items) {
             var group = JSON.parse(items[key]);
             var groupContainer = document.createElement('div');
-            groupContainer.innerHTML = '<h3>' + key + '</h3><button class="restore-group" data-group-name="' + key + '"><img src="/icons/restore.png" width="30" height ="30" alt="restore"></button> <button class="delete-group" data-group-name="' + key + '"><img src="/icons/delete.png" width="30" height ="30" alt="delete"></button><button class="export-json" data-group-name="' + key + '"><img src="/icons/export.png" width="30" height ="30" alt="export"></button>';
+            groupContainer.innerHTML = '<h3>' + key + '</h3><button class="restore-group" data-group-name="' + key + '"><img src="/icons/restore.png" width="30" height ="30" margin-left :20 alt="restore"></button> <button class="delete-group" data-group-name="' + key + '"><img src="/icons/delete.png" width="30" height ="30" margin-right :15 alt="delete"></button><button class="export-json" data-group-name="' + key + '"><img src="/icons/export.png" width="30" height ="30"alt="export"></button>';
             var groupLinks = document.createElement('ul');
             group.forEach(function(tab) {
                 var groupLink = document.createElement('li');
@@ -34,43 +34,51 @@ document.getElementById('view-groups').addEventListener('click', function() {
             groupContainer.appendChild(groupLinks);
             tabGroups.appendChild(groupContainer);
         }
-// Restore Tabs
+        // Restore Tabs
         var restoreButtons = document.getElementsByClassName('restore-group');
         for (var i = 0; i < restoreButtons.length; i++) {
             restoreButtons[i].addEventListener('click', function() {
-            var groupName = this.getAttribute('data-group-name');
-            chrome.storage.local.get(groupName, function(result) {
-                var tabs = JSON.parse(result[groupName]);
-                chrome.windows.create({
-                'url': tabs.map(tab => tab.url),
-                'focused': true,
-                'type': 'normal'
+                var groupName = this.getAttribute('data-group-name');
+                chrome.storage.local.get(groupName, function(result) {
+                    var tabs = JSON.parse(result[groupName]);
+                    chrome.windows.create({
+                        'url': tabs.map(tab => tab.url),
+                        'focused': true,
+                        'type': 'normal'
+                    });
                 });
             });
-        });
-    }
-// Delete Group
-    var deleteButtons = document.getElementsByClassName('delete-group');
-    for (var i = 0; i < deleteButtons.length; i++) {
-        deleteButtons[i].addEventListener('click', function() {
-            var groupName = this.getAttribute('data-group-name');
-            chrome.storage.local.remove(groupName);
-            location.reload();
-        });
-    }
-// Export JSON
-    var exportButtons = document.getElementsByClassName('export-json');
-    for (var i = 0; i < exportButtons.length; i++) {
-        exportButtons[i].addEventListener('click', function() {
-            var groupName = this.getAttribute('data-group-name');
-            var json = JSON.stringify(items[groupName]);
-            var blob = new Blob([json], {type: "application/json"});
-            var filename = groupName + ".json";
-            chrome.downloads.download({
-            url: URL.createObjectURL(blob),
-            filename: filename
+        }
+                // Delete Group
+        var deleteButtons = document.getElementsByClassName('delete-group');
+        for (var i = 0; i < deleteButtons.length; i++) {
+            deleteButtons[i].addEventListener('click', function() {
+                var groupName = this.getAttribute('data-group-name');
+                chrome.storage.local.remove(groupName);
+                location.reload();
+                });
+            }
+                // Export JSON
+        var exportButtons = document.getElementsByClassName('export-json');
+        for (var i = 0; i < exportButtons.length; i++) {
+            exportButtons[i].addEventListener('click', function() {
+                var groupName = this.getAttribute('data-group-name');
+                var json = JSON.stringify(items[groupName]);
+                var blob = new Blob([json], {type: "application/json"});
+                var filename = groupName + ".json";
+                chrome.downloads.download({
+                    url: URL.createObjectURL(blob),
+                    filename: filename
+                });
             });
-        });
-    }
+        }
+    });
 });
+// Dark Mode Switch
+document.getElementById('dark-mode-switch').addEventListener('change', function() {
+    if(this.checked) {
+    document.body.classList.add('dark-mode');
+    } else {
+    document.body.classList.remove('dark-mode');
+    }
 });
