@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html data-theme="dark">
-    <head>
-        <title>Tab Saver</title>
-    </head>
-    <body>
-        <div>
-            <label for="group-name">Group Name:</label>
-            <input type="text" id="group-name" placeholder="Enter group name">
-        </div>
-        <div>
-            <button id="save-tabs">Save Tabs</button>
-            <button id="restore-tabs">Restore Tabs</button>
-            <button id="view-groups">View Groups</button>
-            <button id="export-json">Export JSON</button>
-        </div>
-        <div id="tab-groups"></div>
-    </body>
-    <script src="popup.js"></script>
+<html lang="en-US">
+  <head>
+    <title>Tab Saver</title>
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="author" content="Ramu Mamidala" />
+  </head>
+  <body>
+    <div>
+      <label for="group-name">Group Name:</label>
+      <input type="text" id="group-name" placeholder="Enter group name" />
+    </div>
+    <div>
+      <button id="save-tabs">Save Tabs</button>
+      <button id="restore-tabs">Restore Tabs</button>
+      <button id="view-groups">View Groups</button>
+      <button id="export-json">Export JSON</button>
+    </div>
+    <div id="tab-groups"></div>
+  </body>
+  <script src="popup.js"></script>
 </html>

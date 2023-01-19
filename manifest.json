@@ -4,7 +4,7 @@
     "description": "Save and restore open tabs with options to save tabs to different groups, view and delete tab groups, export group tabs to local storage and download json file",
     "version": "1.0",
     "action": {
-        "default_icon": "icon.png",
+        "default_icon": "icons/icon.png",
         "default_popup": "popup.html"
     },
     "permissions": [
