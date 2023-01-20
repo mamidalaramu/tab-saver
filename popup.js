@@ -12,11 +12,18 @@ document.getElementById('save-tabs').addEventListener('click', function() {
                 'url': tabs[i].url
             });
         }
-        chrome.storage.local.set({[groupName]: JSON.stringify(tabsData)});
+        chrome.storage.local.get(groupName, function(result) {
+            if (result[groupName]) {
+                var currentTabs = JSON.parse(result[groupName]);
+                currentTabs = currentTabs.concat(tabsData);
+                chrome.storage.local.set({[groupName]: JSON.stringify(currentTabs)});
+            } else {
+                chrome.storage.local.set({[groupName]: JSON.stringify(tabsData)});
+            }
     });
 });
+});
 
-// View Groups
 document.getElementById('view-groups').addEventListener('click', function() {
     chrome.storage.local.get(null, function(items) {
         var tabGroups = document.getElementById('tab-groups');
@@ -24,16 +31,46 @@ document.getElementById('view-groups').addEventListener('click', function() {
         for (var key in items) {
             var group = JSON.parse(items[key]);
             var groupContainer = document.createElement('div');
-            groupContainer.innerHTML = '<h3>' + key + '</h3><button class="restore-group" data-group-name="' + key + '"><img src="/icons/restore.png" width="30" height ="30" margin-left :20 alt="restore"></button> <button class="delete-group" data-group-name="' + key + '"><img src="/icons/delete.png" width="30" height ="30" margin-right :15 alt="delete"></button><button class="export-json" data-group-name="' + key + '"><img src="/icons/export.png" width="30" height ="30"alt="export"></button>';
+            groupContainer.innerHTML = '<h3>' + key + '</h3><button class="delete-group" data-group-name="' + key + '"><img src="./delete.png" alt="delete"></button>';
             var groupLinks = document.createElement('ul');
-            group.forEach(function(tab) {
+            group.forEach(function(tab, index) {
                 var groupLink = document.createElement('li');
-                groupLink.innerHTML = '<a href="' + tab.url + '" target="_blank">' + tab.title + '</a>';
+                groupLink.innerHTML = '<input type="checkbox" class="tab-checkbox" id="tab-' + index + '"><label for="tab-' + index + '">' + tab.title + '</label>';
                 groupLinks.appendChild(groupLink);
             });
             groupContainer.appendChild(groupLinks);
             tabGroups.appendChild(groupContainer);
         }
+        // Delete Group
+      var deleteButtons = document.getElementsByClassName('delete-group');
+      for (var i = 0; i < deleteButtons.length; i++) {
+          deleteButtons[i].addEventListener('click', function() {
+              var groupName = this.getAttribute('data-group-name');
+              chrome.storage.local.remove(groupName);
+              location.reload();
+          });
+      }
+    //delete-selected
+    document.getElementById('delete-selected').addEventListener('click', function() {
+        //var groupName = this.dataset.groupname;
+        var groupName = document.getElementById('group-name').value;
+        chrome.storage.local.get(groupName, function(result) {
+            if(result[groupName]){
+              var currentTabs = JSON.parse(result[groupName]);
+              var checkboxes = document.getElementsByClassName('tab-checkbox');
+              for (var i = 0; i < checkboxes.length; i++) {
+                  if (checkboxes[i].checked) {
+                      currentTabs = currentTabs.filter(tab => !(tab.title === checkboxes[i].dataset.title && tab.url === checkboxes[i].dataset.url));
+                  }
+              }
+              chrome.storage.local.set({[groupName]: JSON.stringify(currentTabs)});
+              location.reload();
+            }else{
+              console.log("Group not found in storage");
+            }
+        });
+    });
+
         // Restore Tabs
         var restoreButtons = document.getElementsByClassName('restore-group');
         for (var i = 0; i < restoreButtons.length; i++) {

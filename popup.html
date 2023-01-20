@@ -2,12 +2,12 @@
 <html lang="en-US">
   <head>
     <title>Tab Saver</title>
-    <link rel="stylesheet" href="styles.css" />
-    <meta name="author" content="Ramu Mamidala" />
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
     <div>
-      <label for="group-name">Group Name:</label>
+      <label class="top-name" for="group-name">Save Tabs</label>
       <input type="text" id="group-name" placeholder="Enter group name" />
     </div>
     <div>
@@ -19,6 +19,17 @@
       </label>
     </div>
     <div id="tab-groups"></div>
+    <div>
+      <button id="delete-selected" data-groupname="group-name">
+        Delete selected
+      </button>
+      <input
+        type="checkbox"
+        class="tab-checkbox"
+        data-title="tab.title"
+        data-url="tab.url"
+      />
+    </div>
   </body>
   <script src="popup.js"></script>
 </html>
