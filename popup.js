@@ -23,7 +23,7 @@ document.getElementById('save-tabs').addEventListener('click', function() {
     });
 });
 });
-
+//view-groups
 document.getElementById('view-groups').addEventListener('click', function() {
     chrome.storage.local.get(null, function(items) {
         var tabGroups = document.getElementById('tab-groups');
@@ -31,10 +31,11 @@ document.getElementById('view-groups').addEventListener('click', function() {
         for (var key in items) {
             var group = JSON.parse(items[key]);
             var groupContainer = document.createElement('div');
-            groupContainer.innerHTML = '<h3>' + key + '</h3><button class="delete-group" data-group-name="' + key + '"><img src="./delete.png" alt="delete"></button>';
+            groupContainer.innerHTML = '<h3>' + key + '</h3><button class="restore-group" data-group-name="' + key + '"><img src="/icons/restore.png" width="30" height ="30" margin-left :20 alt="restore"></button> <button class="delete-group" data-group-name="' + key + '"><img src="/icons/delete.png" width="30" height ="30" margin-right :15 alt="delete"></button><button class="export-json" data-group-name="' + key + '"><img src="/icons/export.png" width="30" height ="30"alt="export"></button>';
             var groupLinks = document.createElement('ul');
             group.forEach(function(tab, index) {
                 var groupLink = document.createElement('li');
+                groupLink.innerHTML = '<a href="' + tab.url + '" target="_blank">' + tab.title + '</a>';
                 groupLink.innerHTML = '<input type="checkbox" class="tab-checkbox" id="tab-' + index + '"><label for="tab-' + index + '">' + tab.title + '</label>';
                 groupLinks.appendChild(groupLink);
             });
