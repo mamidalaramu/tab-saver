@@ -4,7 +4,6 @@ body {
   box-sizing: content-box;
   display: flex;
   flex-direction: column;
-  height: 20px;
   margin: 0 auto;
   padding: 1rem;
   position: relative;
@@ -12,16 +11,11 @@ body {
 }
 
 html {
-  background-color: #141e24;
-  color: #53a1b3;
-  color-scheme: dark;
+  background-color: #ffffff;
   font-family: Open Sans, Segoe UI, Helvetica Neue, Ubuntu, sans-serif;
   font-size: 16px;
 }
-body {
-  font-family: Open Sans, Segoe UI, Helvetica Neue, Ubuntu, sans-serif;
-  /* font-size: 20px; */
-}
+
 .top-name{
   color: #53a1b3;
   cursor: pointer;
@@ -37,11 +31,7 @@ body {
 }
 
 #save-tabs {
-  background-color: #141e24;
-  border: 0.125rem solid #316e7d;
   box-sizing: content-box;
-  color: #ffffff;
-  cursor: pointer;
   display: inline-block;
   height: 1.5rem;
   line-height: 0.75rem;
@@ -55,16 +45,11 @@ body {
   user-select: none;
 }
 #save-tabs:hover {
-  background-color: #193945;
   transition: background-color 125ms;
 }
 
 #view-groups {
-  background-color: #141e24;
-  border: 0.125rem solid #316e7d;
   box-sizing: content-box;
-  color: #ffffff;
-  cursor: pointer;
   display: inline-block;
   height: 1.5rem;
   line-height: 0.75rem;
@@ -78,7 +63,6 @@ body {
   user-select: none;
 }
 #tab-groups:hover{
-  background-color: #193945;
   transition: background-color 125ms;
 }
 
@@ -114,17 +98,8 @@ body {
   color: #333;
 }
 
-#tab-groups .delete-group {
-  background-color: transparent;
-  border: none;
-  padding: 0;
+button {
   cursor: pointer;
-}
-
-#tab-groups .delete-group img {
-  width: 20px;
-  height: 20px;
-  
 }
 
 /* Dark Mode Switch */
@@ -173,12 +148,12 @@ input:checked + .slider {
 input:focus + .slider {
   box-shadow: 0 0 1px #2196F3;
 }
-  
+
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
-  }
+}
   
   /* Rounded sliders */
 .slider.round {
@@ -187,19 +162,11 @@ input:checked + .slider:before {
   
 .slider.round:before {
   border-radius: 50%;
-  }
+}
   
 /* Dark Mode */
-body.dark-mode {
+.dark-mode {
   background-color: #333;
   color: #f1f1f1;
+  color-scheme: dark;
 }
-
-body.dark-mode #tab-groups a {
-  color: #f1f1f1;
-}
-
-body.dark-mode .delete-group img {
-  filter: invert(100%);
-}
-
